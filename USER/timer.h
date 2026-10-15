@@ -83,6 +83,9 @@ typedef enum
 
 	TIMER_ID_CLEARTRIP_BACK,
 	TIMER_ID_BOOT_DIGIT, // 开机数字逐位动画
+	// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+	TIMER_ID_REVERSE_DIGIT,
+	// --------------------------------------------------------------------------
 	TIMER_ID_MAX
 }TIMER_ID;
 

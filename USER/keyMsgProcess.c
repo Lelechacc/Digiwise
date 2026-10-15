@@ -23,7 +23,9 @@ const uint16 keyHoldThreshHold[KEY_NAME_MAX] =
 	2000,   	// KEY_NAME_DEC
 	2000,   	// KEY_NAME_POWER
 	1000,   	// KEY_NAME_ADD_DEC
-	1000,		// KEY_NAME_ADD_POWER
+	// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+	3000,		// KEY_NAME_ADD_POWER
+	// --------------------------------------------------------------------------
 	1000,		// KEY_NAME_ADD_LIGHT
 	2000,		// KEY_NAME_DEC_POWER
 };

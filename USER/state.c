@@ -47,6 +47,40 @@ static void STATE_BootDigitTick(uint32 param)
 }
 
 // 状态机初始化
+// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+static uint8 reverseDigitCount = 0;
+static void STATE_ReverseDigitTick(uint32 param)
+{
+	(void)param;
+	if (stateCB.state != STATE_REVERSE_DIGIT)
+	{
+		TIMER_KillTask(TIMER_ID_REVERSE_DIGIT);
+		return;
+	}
+	if (reverseDigitCount < 10)
+	{
+		reverseDigitCount++;
+		LCD_ShowReverseDigits(reverseDigitCount);
+	}
+	else
+	{
+		TIMER_KillTask(TIMER_ID_REVERSE_DIGIT);
+		STATE_EnterState(STATE_RIDING);
+	}
+}
+// --------------------------------------------------------------------------
+
+// ---------------- 2026-10-15 15:41:18 restore full-on key test ----------------
+static void STATE_FullOnTestReturn(uint32 param)
+{
+	(void)param;
+	if (stateCB.state == STATE_FULL_ON_TEST)
+	{
+		STATE_EnterState(STATE_RIDING);
+	}
+}
+// --------------------------------------------------------------------------
+
 void STATE_Init(void)
 {
 	// 默认状态为空
@@ -1475,6 +1509,36 @@ void STATE_EnterState(uint32 state)
 			KEYMSG_RegisterMsgService(KEY_NAME_POWER, KEY_MSG_REPEAT, STATE_PowerOnKeyLongHold, TRUE);
 
 			break;
+		// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+		// ---------------- 2026-10-15 15:41:18 restore full-on key test ----------------
+		case STATE_FULL_ON_TEST:
+			KEYMSG_StopAllService();
+			LCD_SetGroupBlink(SEG_MASK_ALL, FALSE);
+			LCD_SetGroupOnOff(SEG_MASK_ALL, TRUE);
+			LCD_DIS_AllState(Allbuff);
+			BACK_LIGHT_Start(BACK_LIGHT_LEVEL_ON);
+			TIMER_AddTask(TIMER_ID_FULL_ON_TEST_RETURN,
+						  3000,
+						  STATE_FullOnTestReturn,
+						  0,
+						  1,
+						  ACTION_MODE_ADD_TO_QUEUE);
+			break;
+		// --------------------------------------------------------------------------
+
+		case STATE_REVERSE_DIGIT:
+			KEYMSG_StopAllService();
+			reverseDigitCount = 1;
+			LCD_ShowReverseDigits(reverseDigitCount);
+			TIMER_AddTask(TIMER_ID_REVERSE_DIGIT,
+						  350,
+						  STATE_ReverseDigitTick,
+						  0,
+						  TIMER_LOOP_FOREVER,
+						  ACTION_MODE_ADD_TO_QUEUE);
+			break;
+		// --------------------------------------------------------------------------
+
 		case STATE_BOOT_DIGIT:
 			bootDigitCount = 1;
 			LCD_ShowBootDigits(bootDigitCount);
@@ -1586,6 +1650,13 @@ void STATE_EnterState(uint32 state)
 			
 			// 电源键长按关机
 			KEYMSG_RegisterMsgService(KEY_NAME_POWER, KEY_MSG_HOLD, STATE_EnterState, STATE_SHOW_POWER_OFF);
+
+			// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+			KEYMSG_RegisterMsgService(KEY_NAME_ADD_POWER, KEY_MSG_HOLD, STATE_EnterState, STATE_REVERSE_DIGIT);
+			// ---------------- 2026-10-15 15:41:18 restore full-on key test ----------------
+			KEYMSG_RegisterMsgService(KEY_NAME_DEC_POWER, KEY_MSG_HOLD, STATE_EnterState, STATE_FULL_ON_TEST);
+			// --------------------------------------------------------------------------
+			// --------------------------------------------------------------------------
 
 			break;
 

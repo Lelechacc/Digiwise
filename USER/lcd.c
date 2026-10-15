@@ -1765,6 +1765,27 @@ void LCD_ShowBootDigits(uint8 count)
 }
 
 //  °æ±¾±êÌâºÅ
+// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+// Accumulate 1..9,0 from the bottom-right digit toward the first digit.
+void LCD_ShowReverseDigits(uint8 count)
+{
+	uint16 blank[32] = {0};
+	LCD_DIS_AllState(blank);
+	LCD_SetGroupBlink(SEG_MASK_ALL, FALSE);
+	LCD_SetGroupOnOff(SEG_MASK_ALL, TRUE);
+	if (count >= 1) LCD_DisplayMenuNum6(numberTable[1]);
+	if (count >= 2) LCD_DisplayMenuNum5(numberTable[2]);
+	if (count >= 3) LCD_DisplayMenuNum4(numberTable[3]);
+	if (count >= 4) LCD_DisplayMenuNum3(numberTable[4]);
+	if (count >= 5) LCD_DisplayMenuNum2(numberTable[5]);
+	if (count >= 6) LCD_DisplayMenuNum1(numberTable[6]);
+	if (count >= 7) LCD_DisplayAssitNum(numberTable[7]);
+	if (count >= 8) LCD_DisplaySpeedNum3(numberTable[8]);
+	if (count >= 9) LCD_DisplaySpeedNum2(numberTable[9]);
+	if (count >= 10) LCD_DisplaySpeedNum1(numberTable[0]);
+}
+// --------------------------------------------------------------------------
+
 void LCD_SpeedNumDisplayStr(char *str)
 {
 	uint8 length = strlen(str);

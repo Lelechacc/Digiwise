@@ -55,7 +55,13 @@ typedef enum
 	STATE_FUCTION_TEST,							// 功能测试
 
 	STATE_BOOT_DIGIT,							// 开机数字显示状态
-	
+	// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+	STATE_REVERSE_DIGIT, // Key-triggered reverse digit animation
+	// --------------------------------------------------------------------------
+	// ---------------- 2026-10-15 15:41:18 restore full-on key test ----------------
+	STATE_FULL_ON_TEST,
+	// --------------------------------------------------------------------------
+
 	STATE_MAX,									// 状态数
 
 

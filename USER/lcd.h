@@ -259,6 +259,10 @@ void LCD_UnitTest(void);
 // 开机数字逐位显示：count 为当前显示的位数，范围 1～10
 void LCD_ShowBootDigits(uint8 count);
 
+// ---------------- 2026-10-15 15:32:37 reverse digit animation ----------------
+void LCD_ShowReverseDigits(uint8 count);
+// --------------------------------------------------------------------------
+
 void LCD_SpeedNumDisplayStr(char *str);
 
 void LCD_MenuNumDisplayStr(char *str);
