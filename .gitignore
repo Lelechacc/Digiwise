@@ -1,0 +1,29 @@
+# Keil build output
+/Output/
+/Listings/
+
+# Keil generated browse/index files
+*.IAB
+*.IAD
+*.IMB
+*.IMD
+*.PFI
+*.PO
+*.PR
+*.PRI
+*.PS
+*.SearchResults
+*.WK3
+*.uvguix.*
+
+# Debug probes and local connection settings
+JLinkLog.txt
+JLinkSettings.ini
+pemicro_connection_settings.ini
+
+# Editor-generated logs and locks
+/.vscode/*.log
+/.vscode/*.lock
+
+# General logs
+*.log
